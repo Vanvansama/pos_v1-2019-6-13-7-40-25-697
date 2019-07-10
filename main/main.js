@@ -1,7 +1,7 @@
 'use strict';
 
 function printReceipt(inputs) {
-  console.log(isBarCodeValid(inputs));
+  console.log(calculateTotalPrice(inputs));
   // console.log(createReceipt(inputs));
 }
 
@@ -15,4 +15,18 @@ function isBarCodeValid(barcodes) {
     }
   });
   return flag;
+}
+
+function calculateTotalPrice(barcodes) {
+  const database = loadAllItems();
+  const barcodeAndNumbers = barcodes.map((barcode)=>barcode.split('-')); 
+  let price = 0;
+  database.forEach(data => {
+    barcodeAndNumbers.forEach(barcodeAndNumber => {
+      if (data.barcode === barcodeAndNumber[0]) {
+        barcodeAndNumber.length <= 1 ? price += data.price : price += data.price*barcodeAndNumber[1];
+    }
+    });
+  });
+  return price;
 }
