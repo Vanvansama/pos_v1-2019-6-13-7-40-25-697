@@ -45,7 +45,7 @@ function calculateTotalPrice(barcodeAndNumbers) {
       const number = barcodeAndNumbers[barcode];
       database.forEach(data => {
         if (data.barcode === barcode) {
-          price += data.price*number;
+          price += data.price * number;
         }
       });
     }
@@ -53,7 +53,7 @@ function calculateTotalPrice(barcodeAndNumbers) {
   return price;
 }
 
-function isPromotions(barcode){
+function isPromotions(barcode) {
   const promotionsList = loadPromotions();
   let flag = false;
   promotionsList.forEach(promotion => {
@@ -79,14 +79,14 @@ function createReceipt(barcodes) {
         database.forEach(data => {
           if (data.barcode === barcode) {
             let count = 0;
-            isPromotions(barcode) ? count = data.price*(number-parseInt(number/3)) : count = data.price*number;
+            isPromotions(barcode) ? count = data.price * (number - parseInt(number / 3)) : count = data.price * number;
             actuallyPrice += count;
             Receipts += `名称：${data.name}，数量：${number}${data.unit}，单价：${data.price.toFixed(2)}(元)，小计：${count.toFixed(2)}(元)\n`;
           }
         });
       }
     }
-    Receipts += `----------------------\n总计：${actuallyPrice.toFixed(2)}(元)\n节省：${(totalPrice-actuallyPrice).toFixed(2)}(元)\n**********************`;
+    Receipts += `----------------------\n总计：${actuallyPrice.toFixed(2)}(元)\n节省：${(totalPrice - actuallyPrice).toFixed(2)}(元)\n**********************`;
     return Receipts;
   }
   return null;
